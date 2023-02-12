@@ -11,6 +11,9 @@ public class HomeWork10 {
         Scanner scanner = new Scanner (System.in);
         System.out.println("Введите номер задачи: ");
         int taskNumber = scanner.nextInt();
+        if (taskNumber>6){
+            System.out.println("Такого задания не существет");
+        }
         switch (taskNumber){
             case 1 -> {
                 string=InputUserData.getString();

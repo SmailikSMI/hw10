@@ -9,18 +9,20 @@ public class StringUtils {
     public static String removeSpace(String string) {
         string = string.trim();
         for (int i = 0; i < string.length(); i++) {
-            string = string.replace(" ", "");
+            string = string.replace("  ", " ");
         }
         return string;
     }
 
 
     public static final int CARD_NUMBER_LENGTH = 16;
-    public static final int MASCED_CARD_NUMBER_LENGTH = 14;
+    public static final int MASCED_CARD_NUMBER_LENGTH = 12;
     public static String hideNumBankCard(String string) {
         if (string.length() == CARD_NUMBER_LENGTH) {
-            String hidedenCardNumber = string.substring(CARD_NUMBER_LENGTH-MASCED_CARD_NUMBER_LENGTH);
-            string = string.replace(hidedenCardNumber, "************");
+
+            String hidedenCardNumber = string.substring(0,MASCED_CARD_NUMBER_LENGTH);
+            string = string.replace(hidedenCardNumber, "**********");
+            System.out.println(hidedenCardNumber);
         }
         return string;
     }
@@ -57,7 +59,7 @@ public class StringUtils {
 
     public static boolean isArabianDigits(String string){
         for (int i = PASPORT_SERIES_LENGTH; i < string.length(); i++) {
-            if (!('0'>=string.charAt(i) && string.length()<='9')) {
+            if (!('0'<=string.charAt(i) && string.charAt(i)<='9')) {
                 return false;
             }
         }
@@ -83,45 +85,44 @@ public class StringUtils {
         return true;
     }
 
-    public static boolean checkPassword(String string) {
-        int LengthMore8 = 0;
-        if (string.length() >= 7) {
-            LengthMore8++;
-        }
-        int wasUpperLetter = 0;
-        for (int i = 0; i < string.length(); i++) {
-            if ((Character.isUpperCase(string.charAt(i)))) {
-                wasUpperLetter++;
-                break;
-            }
-        }
-        int wasLowerLetter = 0;
-        for (int i = 0; i < string.length(); i++) {
-            if ((Character.isLowerCase(string.charAt(i)))) {
-                wasLowerLetter++;
-                break;
-            }
-        }
-        int wasDigit = 0;
-        for (int i = 0; i < string.length(); i++) {
-            if ((Character.isDigit(string.charAt(i)))) {
-                wasDigit++;
-                break;
-            }
-        }
-        if ((wasUpperLetter + wasLowerLetter + wasDigit + LengthMore8 == 4)) {
+    public static final int PASSWORD_LENGTH=8;
 
-            return true;
+    public static boolean checkPassword(String string)
+    {
+        if (!(string.length()>=PASSWORD_LENGTH)){
+            return false;
+        }
+
+        boolean isUpperLetter=false;
+        boolean isLowerLetter=false;
+        boolean isDigit=false;
+        for (int i = 0; i < string.length(); i++) {
+            if(Character.isUpperCase(string.charAt(i))){
+            isUpperLetter=true;
+            }
+
+            if(Character.isLowerCase(string.charAt(i))){
+                isLowerLetter=true;
+            }
+
+            if (Character.isDigit(string.charAt(i))){
+                isDigit=true;
+            }
+
+            if ((isUpperLetter && isLowerLetter && isDigit)){
+                return true;
+            }
         }
         return false;
     }
 
     public static boolean checkEmailAddress(String string) {
+
         for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == ' ') {
+            if (string.contains(" ")) {
                 return false;
             }
-            if (!(string.contains("@") && string.indexOf('@') == string.charAt(i))) {
+            if (!(string.contains("@") && string.indexOf('@') == string.lastIndexOf("@"))) {
                 return false;
             }
             if (string.indexOf('@') == 0 || string.indexOf('@') == string.length() - 1) {
